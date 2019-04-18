@@ -1,0 +1,19 @@
+{% load leaflet_tags %}
+
+<head>
+    {% leaflet_js %}
+    {% leaflet_css %}
+</head>
+
+<body>
+<script type="text/javascript">
+    function map_init_basic(map, options) {
+        {% for building in buildings %}
+            L.marker([{{building.location.y}}, {{building.location.x}}]).addTo(map);
+        {% endfor %}
+
+    }
+</script>
+
+{% leaflet_map "yourmap" callback="window.map_init_basic" %}
+</body>
