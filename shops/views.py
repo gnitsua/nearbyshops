@@ -11,6 +11,7 @@ from django.views.decorators.http import require_http_methods
 from shops.forms import BuildingNameForm
 from shops.forms import LatLngForm
 from shops.models import Shop
+import json
 
 
 def shops(request):
@@ -31,6 +32,16 @@ def shops(request):
 
 @require_http_methods(["GET", "POST"])
 def buildings(request):
+    if request.method == "POST":
+        pass #create building
+    else:
+        buildings = Shop.objects.all()
+        return render(request, 'map.html', {'buildings': buildings})
+        # return render(request, 'buildingnameform.html', {'form': form})
+
+
+@require_http_methods(["GET", "POST"])
+def buildings_search(request):
     if request.method == "POST":
         form = BuildingNameForm(request.POST)
 

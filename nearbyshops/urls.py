@@ -17,10 +17,12 @@ from django.conf.urls import url
 from django.contrib import admin
 
 from shops.views import buildings
+from shops.views import buildings_search
 from shops.views import shops
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^shops/', shops),
+    url(r'^buildings/search', buildings_search),
     url(r'^buildings/', buildings),
 ]

@@ -8,5 +8,14 @@ from django.db import models
 class Shop(models.Model):
     name = models.CharField(max_length=100)
     location = gismodels.PointField()
-    address = models.CharField(max_length=100)
-    city = models.CharField(max_length=50)
+    address = models.CharField(max_length=400)
+
+
+class MenuItem(models.Model):
+    name = models.CharField(max_length=100)
+    price = models.CharField(max_length=20)
+    restaurant = models.ForeignKey(Shop, on_delete=models.CASCADE)
+
+class Ingredient(models.Model):
+    name = models.Charfield(max_length=100)
+    menu_item = models.ManyToManyField(MenuItem)
