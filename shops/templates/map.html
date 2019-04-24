@@ -23,9 +23,15 @@
             });
 
             {% for building in buildings %}
-                var marker = new google.maps.Marker({
+                var infowindow{{ forloop.counter }} = new google.maps.InfoWindow({
+                    content: "{{ building.name }}"
+                });
+                var marker{{ forloop.counter }} = new google.maps.Marker({
                     position: new google.maps.LatLng({{ building.location.y }}, {{ building.location.x}}),
-                    map: map
+                    map: map,
+                });
+                marker{{ forloop.counter }}.addListener('click', function() {
+                    infowindow{{ forloop.counter }}.open(map, marker{{ forloop.counter }});
                 });
             {% endfor %}
         }
