@@ -1,0 +1,13 @@
+{% load leaflet_tags %}
+<html>
+  <head>
+   {% leaflet_js plugins="forms" %}
+   {% leaflet_css plugins="forms" %}
+  </head>
+  <body>
+    <form action="/buildings/" method="post">
+        {{ form }}
+        <input type="submit"/>
+    </form>
+  </body>
+</html>

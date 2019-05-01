@@ -1,5 +1,3 @@
-{% load leaflet_tags %}
-
 <head>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -14,6 +12,8 @@
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
     <script>
+        let building_data = JSON.parse({{ buildings }});
+        console.log(building_data)
         var map;
 
         function initMap() {
@@ -21,19 +21,8 @@
                 center: {lng: -75.1899, lat: 39.9566},
                 zoom: 12
             });
+            map.data.loadGeoJson(building_data);
 
-            {% for building in buildings %}
-                var infowindow{{ forloop.counter }} = new google.maps.InfoWindow({
-                    content: "{{ building.name }}"
-                });
-                var marker{{ forloop.counter }} = new google.maps.Marker({
-                    position: new google.maps.LatLng({{ building.location.y }}, {{ building.location.x}}),
-                    map: map,
-                });
-                marker{{ forloop.counter }}.addListener('click', function() {
-                    infowindow{{ forloop.counter }}.open(map, marker{{ forloop.counter }});
-                });
-            {% endfor %}
         }
     </script>
     <style>

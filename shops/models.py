@@ -3,11 +3,13 @@ from __future__ import unicode_literals
 
 from django.contrib.gis.db import models as gismodels
 from django.db import models
+from leaflet.forms.fields import PointField
 
 
 class Shop(models.Model):
     name = models.CharField(max_length=100)
-    location = gismodels.PointField()
+    # location = gismodels.PointField()
+    location = PointField()
     address = models.CharField(max_length=400)
 
 
@@ -16,6 +18,7 @@ class MenuItem(models.Model):
     price = models.CharField(max_length=20)
     restaurant = models.ForeignKey(Shop, on_delete=models.CASCADE)
 
+
 class Ingredient(models.Model):
-    name = models.Charfield(max_length=100)
+    name = models.CharField(max_length=100)
     menu_item = models.ManyToManyField(MenuItem)
