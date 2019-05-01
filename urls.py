@@ -16,11 +16,11 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from shops.views import buildings
+from shops.views import shops
 from shops.views import shops
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^shops/', shops),
-    url(r'^buildings/', buildings),
+    url(r'^shops/', shops),
 ]

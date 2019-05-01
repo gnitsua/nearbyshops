@@ -15,13 +15,18 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+
+from shops.views import index
 from shops.views import shops
-from shops.views import buildings
-from shops.views import building_create_form
+from shops.views import shops_create_form
+from shops.views import shops_search
+
 urlpatterns = [
+    url(r'^$', index),
     url(r'^admin/', admin.site.urls),
-    url(r'^shops/', shops),
-    url(r'^buildings/create/', building_create_form),
-    url(r'^buildings/', buildings),
+    url(r'^shops/$', shops),
+    url(r'^shops/create/', shops_create_form),
+    url(r'^shops/search/', shops_search),
+
 
 ]

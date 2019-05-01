@@ -7,16 +7,21 @@ from shops.models import Shop
 class ShopForm(forms.ModelForm):
     class Meta:
         model = Shop
-        fields = ('name', 'description')
+        fields = ('name', 'description', 'location')
         widgets = {'location': LeafletWidget()}
+
 
 class LatLngForm(forms.Form):
     point = forms.PointField(widget=forms.OSMWidget(attrs={'default_lon': -75.1899,
                                                            'default_lat': 39.9566}))
 
-class BuildingChoiceField(forms.ModelChoiceField):
+
+class shopChoiceField(forms.ModelChoiceField):
     def label_from_instance(self, obj):
         return "%s" % obj.name
 
-class BuildingNameForm(forms.Form):
-    building = BuildingChoiceField(queryset=Shop.objects.all(), to_field_name="name", empty_label=None)
+
+class ShopSearchForm(forms.Form):
+    text = forms.CharField(required=False)
+    lat = forms.FloatField(required=False)
+    lng = forms.FloatField(required=False)

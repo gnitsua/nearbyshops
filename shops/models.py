@@ -8,9 +8,8 @@ from leaflet.forms.fields import PointField
 
 class Shop(models.Model):
     name = models.CharField(max_length=100)
-    # location = gismodels.PointField()
-    location = PointField()
-    address = models.CharField(max_length=400)
+    location = gismodels.PointField()
+    description = models.CharField(max_length=400)
 
 
 class MenuItem(models.Model):
