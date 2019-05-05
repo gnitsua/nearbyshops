@@ -14,8 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
+from django.conf.urls.static import static
 from django.contrib import admin
 
+import settings
 from shops.views import index
 from shops.views import shops
 from shops.views import shops_create_form
@@ -29,4 +31,4 @@ urlpatterns = [
     url(r'^shops/search/', shops_search),
 
 
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

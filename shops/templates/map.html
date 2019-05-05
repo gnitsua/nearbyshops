@@ -1,10 +1,7 @@
 <head>
-
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
             integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
             crossorigin="anonymous"></script>
@@ -24,26 +21,56 @@
                 center: {lng: -75.1899, lat: 39.9566},
                 zoom: 12
             });
-            shop_data.features.forEach((shop)=> new google.maps.Marker({
-                position: {lat:shop.geometry.coordinates[1],lng:shop.geometry.coordinates[0]},
-                map: map,
-                title: shop.properties.name
-            }))
+            shop_data.features.forEach((shop) => createMarker(shop.properties.eid, map))
+            //shop_data.features.forEach((shop) => new google.maps.Marker({
+            //    position: {lat: shop.geometry.coordinates[1], lng: shop.geometry.coordinates[0]},
+            //    map: map,
+            //    title: shop.properties.name
+            //}))
         }
 
 
-        const Shop = (shop) => `
-          <div class="col-m-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">${shop.properties.name}</h5>
-                        <p class="card-text">${shop.properties.description}</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+        const Shop = (shop) => {
+            return `
+                      <div class="col-m-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">${shop.properties.name}</h5>
+                                    <p class="card-text">${shop.properties.street} ${shop.properties.city}, ${shop.properties.state}</p>
+                                    <a href="#" class="btn btn-primary">Details</a>
 
-                    </div>
-                </div>
-            </div>
-        `;
+                                </div>
+                            </div>
+                        </div>
+                    `;
+        };
+
+
+        function createMarker(eid, map) {
+            {#const result = $.ajax("https://api.data.scharitynavigator.org/v2/Organizations/136080629",#}
+            {#    {#}
+            {#        data: {app_id: "b169fab4", app_key: "4b27e59b0d12da4afc4c930d14484178"},#}
+            {#        success: (res) => {#}
+            {#        },#}
+            {#        error: (error => console.log(res)),#}
+            {#        dataType: 'json',#}
+            {#        async: false#}
+            {#    })#}
+            {#example = JSON.parse('{"charityNavigatorURL":"https://www.charitynavigator.org/?bay=search.profile&ein=136080629&utm_source=DataAPI&utm_content=9af5afa3","tagLine":null,"charityName":"AMERICAN NATIONAL RED CROSS","ein":"136080629","mission":null,"websiteURL":null,"activeAdvisories":{"_rapid_links":{"related":{"href":"https://api.data.charitynavigator.org/v2/Organizations/136080629/Advisories?status=ACTIVE"}}},"removedAdvisories":{"_rapid_links":{"related":{"href":"https://api.data.charitynavigator.org/v2/Organizations/136080629/Advisories?status=REMOVED"}}},"irsClassification":{"deductibility":"Deductibility not specified","subsection":"4947(a)(2)","assetAmount":232650,"nteeType":"Human Services - Multipurpose and Other","nteeSuffix":"0","incomeAmount":15077,"filingRequirement":"Required to file form 990-PF","classification":"4947(a)(1) - Private Foundation (Form 990PF Filer)","latest990":"August, 2018","rulingDate":null,"nteeCode":"P21","groupName":null,"deductibilityCode":"0","affiliation":null,"foundationStatus":"All organizations except 501(c)(3)","nteeClassification":"American Red Cross","accountingPeriod":"August","deductibilityDetail":null,"exemptOrgStatus":"Trust described in section 4947(a)(2) of the IR Code","exemptOrgStatusCode":"12","nteeLetter":"P"},"mailingAddress":{"country":null,"stateOrProvince":"PA","city":"PITTSBURGH","postalCode":"15230-0185","streetAddress1":"PO BOX 185","streetAddress2":null}}')#}
+            var infowindow = new google.maps.InfoWindow({
+                content: Shop()
+            });
+
+            var marker = new google.maps.Marker({
+                position: uluru,
+                map: map,
+                title: 'Uluru (Ayers Rock)'
+            });
+            marker.addListener('click', function () {
+                infowindow.open(map, marker);
+            });
+            return marker;
+        }
 
         function initialize() {
             initMap()
@@ -52,10 +79,6 @@
         }
     </script>
     <style>
-        .leaflet-container { /* all maps */
-            width: 100%;
-            height: 100%;
-        }
 
         .card {
             width: 300px;

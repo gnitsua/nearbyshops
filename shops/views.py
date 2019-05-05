@@ -15,7 +15,7 @@ from django.views.decorators.http import require_http_methods
 
 from shops.forms import ShopForm
 from shops.forms import ShopSearchForm
-from shops.models import Shop
+from shops.models import Charity
 
 
 @csrf_exempt
@@ -33,13 +33,14 @@ def shops(request):
             form.save()
             return redirect('/shops/')
     else:
-        results = Shop.objects.all()
+        results = Charity.objects.all()
         results = json.loads(serializers.serialize('geojson', results))
         if ("application/json" in request.META.get('HTTP_ACCEPT')):
             return JsonResponse({"data": results})
         else:
-            print(results)
             return render(request, 'map.html', {"shops": json.dumps(results)})
+
+
 
 
 @csrf_exempt
@@ -56,7 +57,7 @@ def shops_search(request):
         form = ShopSearchForm(request.POST)
         if (form.is_valid()):
             #if it's an empty form we return everything
-            results = Shop.objects.all()
+            results = Charity.objects.all()
             if(form.cleaned_data["text"] != None and form.cleaned_data["text"] != ""):
                 #if the user gave us a text string, pick everything that is close
                 # let's make names more important than descriptions

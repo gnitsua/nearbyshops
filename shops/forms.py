@@ -1,13 +1,12 @@
 from django.contrib.gis import forms
 from leaflet.forms.widgets import LeafletWidget
 
-from shops.models import Shop
-
+from shops.models import Charity
 
 class ShopForm(forms.ModelForm):
     class Meta:
-        model = Shop
-        fields = ('name', 'description', 'location')
+        model = Charity
+        fields = ('name', 'ein', 'street', 'city','state','location')
         widgets = {'location': LeafletWidget()}
 
 

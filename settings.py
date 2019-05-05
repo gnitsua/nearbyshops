@@ -124,3 +124,5 @@ LEAFLET_CONFIG = {
     'DEFAULT_CENTER': (39.9566, -75.1899),
     'DEFAULT_ZOOM': 15,
 }
+
+STATIC_ROOT = "/static/"
